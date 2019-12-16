@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     avatar: {
         type: String
@@ -20,3 +21,5 @@ const UserSchema = new mongoose.Schema({
 
     }
 });
+
+module.exports = UserSchema = mongoose.model('User', UserSchema)
