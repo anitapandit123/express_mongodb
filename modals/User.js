@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    avatar: {
+    password: {
         type: String
     },
     date: {
