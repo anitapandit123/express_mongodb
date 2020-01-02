@@ -62,18 +62,19 @@ router.post('/', [
             //Encrypt password
 
             //Return jsonswebtoken
-            const payload = {
+            const payload = {  //creating payload
                 user: {
                     id: user.id
                 }
             }
 
-            jwt.sign(
+            jwt.sign(  //jwt signature
                 payload,
-                config.get('jwtToken'),
-                { expiresIn: 36000 },
+                config.get('jwtToken'), //getting secret key
+                { expiresIn: 360000 },
                 (err, token) => {
-                    res.json({ token })
+                    if (err) throw err;
+                    res.json({ token });
                 });
 
         } catch (err) {
