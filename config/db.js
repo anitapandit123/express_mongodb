@@ -2,9 +2,14 @@ const mongoose = require('mongoose');
 // const config = require('config');
 //const db = config.get('mongoURI');
 
+// mongoDB  locally connected and port 12345
+var mongoDB = 'mongodb://127.0.0.1/developer_register';
+
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb+srv://anita123:anita@123@cluster0-uvqnb.mongodb.net/test?retryWrites=true&w=majority", {
+        await mongoose.connect(mongoDB,
+           
+            {
             useNewUrlParser: true,
             useCreateIndex: true,
             useUnifiedTopology: true

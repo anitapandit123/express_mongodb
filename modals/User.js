@@ -1,8 +1,8 @@
 //database schemas
 
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -12,8 +12,13 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    avatar: {
+
+    gravatar: {
         type: String
+    },
+    password: {
+        type: String,
+        required: true
     },
     date: {
         type: Date,
@@ -22,4 +27,4 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-module.exports = UserSchema = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema)
