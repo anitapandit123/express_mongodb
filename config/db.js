@@ -8,12 +8,13 @@ var mongoDB = 'mongodb://127.0.0.1/developer_register';
 const connectDB = async () => {
     try {
         await mongoose.connect(mongoDB,
-           
+
             {
-            useNewUrlParser: true,
-            useCreateIndex: true,
-            useUnifiedTopology: true
-        });
+                useNewUrlParser: true,
+                useCreateIndex: true,
+                useUnifiedTopology: true,
+                useFindAndModify: false
+            });
         console.log('Mongodb Connected..');
     } catch (err) {
         console.error(err.message);
