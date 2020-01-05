@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
+
+// const Profiles = require('../../modals/Profiles');
+//const User = require('../../modals/User');
+
+
 // const config = require('config');
 //const db = config.get('mongoURI');
 
 // mongoDB  locally connected and port 12345
 var mongoDB = 'mongodb://127.0.0.1/developer_register';
+// mongoose.model('user', UserSchema)
+
+
 
 const connectDB = async () => {
     try {

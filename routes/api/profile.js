@@ -16,7 +16,7 @@ router.get('/me', auth, async (req, res) => {
 
     try {
         const profile = await Profiles.findOne({ user: req.user.id }).populate(
-            'user',
+            'User',
             ['name', 'avatar']
         );
         if (!profile) {
@@ -106,12 +106,33 @@ router.post('/', [auth, [
         // Create
         newProfileCreate = new Profiles(profileFields); // if we want to update and there is no prifile,,new profile will be created
 
-        await profile.save();
-        res.json(newProfileCreate);
+        await newProfileCreate.save();
+        console.log('User Saved')
+        res.json(newProfileCreate)
+
     } catch (err) {
-        console.err(err.message);
+        console.log(err.message);
         res.status(500).send('SERVER ERROR');
     }
-})
+}
+);
+
+
+// GET ALL Profiles
+
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profiles.find().populate(
+            'user',
+            ['name', 'avatar']);
+        res.json(profiles);
+
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).send('SERVER ERROR')
+    }
+});
+
 
 module.exports = router;
