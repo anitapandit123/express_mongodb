@@ -13,7 +13,7 @@ var UserSchema = new mongoose.Schema({
         unique: true
     },
 
-    gravatar: {
+    avatar: {
         type: String
     },
     password: {
@@ -27,4 +27,4 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = User = mongoose.model('User', UserSchema);

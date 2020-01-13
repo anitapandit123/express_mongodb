@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
+
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const config = require('config');
 const { check, validationResult } = require('express-validator');
+const router = express.Router();
 
 
 const User = require('../../modals/User');
@@ -25,6 +26,7 @@ router.post('/', [
         .isLength({ min: 4 })
 ],
     async (req, res) => {
+        console.log(req.body);
         const errors = validationResult(req);  //handling errors
         if (!errors.isEmpty()) {
             // error cha
@@ -48,7 +50,6 @@ router.post('/', [
             user = new User({
                 name,
                 email,
-                avatar,
                 password
 
             });
