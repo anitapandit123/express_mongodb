@@ -1,4 +1,5 @@
 const express = require('express');
+const request = require('request');
 const connectDB = require('./config/db');
 
 
@@ -6,6 +7,13 @@ const app = express();
 
 //connect database
 connectDB();
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+
 
 //Init Middleware
 app.use(express.json({ extended: false }));

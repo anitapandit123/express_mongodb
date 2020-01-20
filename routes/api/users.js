@@ -11,7 +11,7 @@ const User = require('../../modals/User');
 
 // @route Get api/users
 // @description Test route
-// @access Public
+// @access Public 
 //router.get('/', (req,res) => res.send('User route'));
 
 router.post('/', [
