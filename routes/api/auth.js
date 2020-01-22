@@ -12,8 +12,8 @@ const User = require('../../modals/User');
 router.post('/', [
     check('email', 'email is required').isEmail(),
     check('password', 'password is required').exists()
-
 ],
+
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
