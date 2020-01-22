@@ -37,7 +37,8 @@ router.post('/', [
 
             const payload = {
                 user: {
-                    id: user.id
+                    id: user.id,
+                    name: user.name
                 }
             };
 
@@ -58,17 +59,17 @@ router.post('/', [
     }
 )
 
-// router.get('/', auth, async (req, res) => {
-//     try {
-//         const user = await User.findById(req.user.id).select('-password')
-//         res.json(user);
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        res.json(user);
 
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
 
-// );
+);
 
 module.exports = router; 
