@@ -35,6 +35,7 @@ router.post('/',
         }
 
         const { email, password } = req.body;
+
         try {
             let user = await User.findOne({ email });
 
@@ -48,6 +49,7 @@ router.post('/',
             //password match bcrypt has method called compare(which returns a promise)which takes plain text password and encrypted password and match 
 
             const isMatch = await bcrypt.compare(password, user.password)
+
 
             if (!isMatch) {
                 return res
@@ -70,7 +72,10 @@ router.post('/',
                 { expiresIn: 360000 },
                 (err, token) => {
                     if (err) throw err;
-                    res.json(token);
+
+                    const response = { token, user };
+                    console.log('res', response);
+                    res.json(response);
                 }
             );
         } catch (err) {
