@@ -63,9 +63,11 @@ router.post('/', [
             //Encrypt password
 
             //Return jsonswebtoken
-            const payload = {  //creating payload
+            const payload = {
                 user: {
-                    id: user.id
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
                 }
             }
 
@@ -75,7 +77,8 @@ router.post('/', [
                 { expiresIn: 360000 },
                 (err, token) => {
                     if (err) throw err;
-                    res.json({ token });
+                    res.json({ token, payload });
+
                 });
 
         } catch (err) {
