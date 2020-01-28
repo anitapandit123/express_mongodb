@@ -41,8 +41,8 @@ router.post('/',
 
             if (!user) {
                 return res
-                    .status(400).
-                    json({ errors: [{ msg: 'invalid credentials' }] });
+                    .status(400)
+                    .json({ errors: [{ msg: 'invalid credentials' }] });
             }
 
 
@@ -61,7 +61,8 @@ router.post('/',
             const payload = {
                 user: {
                     id: user.id,
-                    email: user.email
+                    email: user.email,
+                    password: user.password
                 }
             };
 
