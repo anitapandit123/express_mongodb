@@ -75,7 +75,7 @@ router.post('/',
                     if (err) throw err;
 
                     const response = { token, user };
-                    console.log('res', response);
+                    // console.log('res', response);
                     res.json(response);
                 }
             );
