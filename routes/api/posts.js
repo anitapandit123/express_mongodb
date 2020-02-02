@@ -1,6 +1,6 @@
 
 const router = express.Router();
-const { cheeck, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 
 const auth = require('../../middleware/auth');
 const Post = require('../../modals/Profiles');
@@ -48,6 +48,39 @@ router.get('/', auth, async (req, res) => {
 });
 
 
+// @route    GET api/posts/:id
+// @desc     Get post by ID
+// @access   Private
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
 
+        // Check for ObjectId format and post
+        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+            return res.status(404).json({ msg: 'Post not found' });
+        }
+
+        res.json(post);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route DELETE api/posts/:id
+// @desc Delete a post
+// @access Private
+
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        await post.remove();
+        // check for ObjectId format and post
+        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+            return res.status(401).json({ msg: 'User not authorized' })
+        }
+    } catch (err) { }
+})
 
 module.exports = router;
