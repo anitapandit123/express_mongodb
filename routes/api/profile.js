@@ -142,11 +142,14 @@ router.delete('/', auth, async (req, res) => {
     try {
 
         //Remove profile
-        await Profiles.findByIdAndRemove({ user: req.user.id });
+        await Profiles.findOneAndRemove({ user: req.user.id });
 
-        //Remove user
         await User.findOneAndRemove({ _id: req.user.id });
-        res.json(profiles);
+
+        // //Remove user 
+        // await User.remove({ _id: mongodb.ObjectID(req.params.id) })
+        // User.findOneAndRemove({ _id: req.user.id });
+
 
         res.json({ msg: 'user deleted' })
     } catch (err) {
