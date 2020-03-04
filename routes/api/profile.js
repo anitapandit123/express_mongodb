@@ -155,7 +155,9 @@ router.delete('/', auth, async (req, res) => {
 });
 
 
-// Add profile experience
+// @route Add profile experience api/profile/experience
+// @description add profile experience
+// @access Private
 router.put('/experience',
     [auth, [
         check('title', 'Title is required').not().isEmpty(),
@@ -165,7 +167,7 @@ router.put('/experience',
     ]
     ],
     async (req, res) => {
-        const errors = validationResult();
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
@@ -197,8 +199,8 @@ router.put('/experience',
 
             const profile = await Profiles.findOne({ user: req.user.id });
 
-            profile.experince.unshift(newExp);
-            profile.save();
+            profile.experience.unshift(newExp); // unshift is same like push
+            await profile.save();
 
             res.json(profile);
 
