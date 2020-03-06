@@ -60,7 +60,8 @@ router.post('/', [auth, [
         facebook,
         twitter,
         instagram,
-        linkedin
+        linkedin,
+        education,
     } = req.body
 
     //Build profile object  
@@ -87,6 +88,13 @@ router.post('/', [auth, [
     if (twitter) profileFields.social.twitter = twitter;
     if (instagram) profileFields.social.instagram = instagram;
     if (linkedin) profileFields.social.linkedin = linkedin;
+
+
+    // if education available
+    if (education && education.length) {
+        profileFields.education = education;
+    }
+    console.log('profile fields ', profileFields);
 
 
     try {
@@ -173,7 +181,6 @@ router.put('/experience',
         }
 
         //destructuring the experice array
-
         const {
             title,
             company,
@@ -184,6 +191,7 @@ router.put('/experience',
             description
         } = req.body
 
+        // creating new object for experiwnce
         const newExp = {
             title,
             company,
@@ -199,7 +207,7 @@ router.put('/experience',
 
             const profile = await Profiles.findOne({ user: req.user.id });
 
-            profile.experience.unshift(newExp); // unshift is same like push
+            profile.experience.unshift(newExp); // unshift is same like push at first
             await profile.save();
 
             res.json(profile);
@@ -216,14 +224,40 @@ router.put('/experience',
 // @access Private
 router.delete('/experience/:exp_id', auth, async (req, res) => {
     try {
-        // get the profile
+        // get the profile 
         const profile = await Profiles.findOne({ user: req.user.id });
+
+        // Get remove index
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+
+        profile.experience.splice(removeIndex, 1);
+
+        await profile.save();
+        res.json(profile);
 
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
-})
+});
+
+// @route put api for education
+
+router.put('/education', auth, [
+    check('school', 'school is required').not.isEmpty(),
+    check('degree', 'degree is required').not.isEmpty(),
+    check('fieldOfStudy', 'field of study is required').not.isEmpty(),
+    check('from', 'from is required').not.isEmpty()
+],
+    async (req, res) => {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ msg: errors.array() });
+        }
+
+
+    })
 
 
 
