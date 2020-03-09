@@ -12,14 +12,27 @@ module.exports = function (req, res, next) {
 
     //verify token
 
+    // try {
+    //     const decoded = jwt.verify(token, config.get('jwtToken'));
+    //     req.user = decoded.user;
+    //     next();
+    // }
+    // Verify token
     try {
-        const decoded = jwt.verify(token, config.get('jwtToken'));
-        req.user = decoded.user;
-        next();
+        jwt.verify(token, config.get('jwtSecret'), (error, decoded) => {
+            if (error) {
+                res.status(401).json({ msg: 'Token is not valid' });
+            }
+            else {
+                req.user = decoded.user;
+                next();
+            }
+        });
     }
     // this will run if token is not valid
     catch (err) {
-        res.status(401).json({ msg: 'Token is not valid' })
+        console.log('something is wrong with middleware')
+        res.status(500).json({ msg: 'Token is not valid' })
     }
 
 }
