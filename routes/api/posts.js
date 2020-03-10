@@ -1,6 +1,7 @@
 
+const express = require('express');
 const router = express.Router();
-const { cheeck, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 
 const auth = require('../../middleware/auth');
 const Post = require('../../modals/Profiles');
@@ -26,7 +27,7 @@ router.post('/', [auth, [check('text', 'Text is required').not().isEmpty()]],
             const post = await newPost.save();
             res.json(post);
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             res.status(500).send('Server Error');
         }
 
@@ -42,11 +43,33 @@ router.get('/', auth, async (req, res) => {
         const posts = await Post.find().sort({ date: -1 });
         res.json(posts);
     } catch (err) {
-        console.log(err.message);
-        res.status(500).send('SERVER ERROTR');
+        console.error(err.message);
+        res.status(500).send('SERVER ERROR');
     }
 });
 
+//@route get posts by id api/posts/:id
+//@desc Get post by Id
+//@access private
+
+router.get('/:id', auth, async (req, res) => {
+    try {
+
+        const idFromReq = req.params.id
+        const post = await Post.findById(idFromReq);
+
+        // check for Objectid format and post
+        if (!idFromReq.match(/^[0-9a-fA-F]{24}$/) || !post) {
+            return res.status(404).json({ msg: 'Post not found' })
+        }
+
+        res.json(post);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('SERVER ERROR')
+    }
+});
 
 
 
